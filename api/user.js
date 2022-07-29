@@ -63,14 +63,19 @@ module.exports = app => {
 
     const get = (req, res) => {
         app
-        .db("users")
-        .select("id", "name", "email", "admin")
-        //.whereNull("deletedAt") // verificar se foi deletado virtualmente pela funcao 'remove'
-        .then((users) => res.json(users))
-        .catch((err) => res.status(500).send(err));
+            .db("users")
+            .select("id", "name", "email", "admin")
+            //.whereNull("deletedAt") // verificar se foi deletado virtualmente pela funcao 'remove'
+            .then((users) => res.json(users))
+            .catch((err) => res.status(500).send(err));
     }
 
     const getById = (req, res) => {
+        app.db("users")
+            .select("id", "name", "email", "admin")
+            .where({ id: req.params.id })
+            .then((user) => res.json(user))
+            .catch((err) => res.status(500).send(err))
     }
 
     const remove = (req, res) => {

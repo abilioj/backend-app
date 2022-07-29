@@ -10,6 +10,7 @@ cors - npm i cors --save
  pra trata protecao da requisao entre dominio
 
 bcrypt - npm i bcrypt --save
+pra criptografia de dados
 
  Knex.js - npm i -g knex  e  npm install knex --save
  é um construtor de consultas SQL
