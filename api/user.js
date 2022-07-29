@@ -1,15 +1,73 @@
+const bcrypt = require('bcrypt');
+
 module.exports = app => {
-    const save = (req, res) => {
+
+    // inportando as funcoes de validacoes
+    const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation
+
+    // função de criptografa
+    const encryptPassword = password => {
+        const salt = bcrypt.genSaltSync(10)
+        return bcrypt.hashSync(password, salt)
+    }
+
+    const save = async (req, res) => {
+        // aqui pega os dodos vindo da requisicoes, e ja tratada pela  middleware bodyParser
+        const user = { ...req.body }
+
+        // Valida o id de user
+        if (req.params.id) user = req.params.id
+
+        // validar os outros atributos de user
+        try {
+            existsOrError(user.name, "Nome não informado");
+            existsOrError(user.email, "E-mail não informado");
+            existsOrError(user.password, "Senha não informada");
+            existsOrError(user.confirmPassword, "Confirmação de Senha inválida");
+            equalsOrError(user.password, user.confirmPassword, "Senhas não conferem");
+
+
+            if (!user.id) {
+                //validade se user exite no banco
+                const userFromDB = await app
+                    .db("users")
+                    .where({ email: user.email })
+                    .first();
+                notExistsOrError(userFromDB, "Usuário já cadastrado");
+            }
+
+        } catch (msg) {
+            return res.status(400).send(msg)
+        }
+
+        //fazendo a criptografa da senha
+        user.password = encryptPassword(user.password);
+        delete user.confirmPassword;
+
+        if (user.id) {//se ouve id ele vai atualiza,se não inser um novo usuario
+            app
+                .db("users")
+                .update(user)
+                .whereNull("deletedAt") // verificar se foi deletado virtualmente pela funcao 'remove'
+                .where({ id: user.id })
+                .then((_) => res.status(204).send())
+                .catch((err) => res.status(500).send(err));
+        } else {
+            app
+                .db("users")
+                .insert(user)
+                .then((_) => res.status(204).send())
+                .catch((err) => res.status(500).send(err));
+        }
     }
 
     const get = (req, res) => {
-        // res.send('/users')
-        const produtos = [
-            {nome: "abilio", id: 1},
-            {nome: "jose", id: 2},
-            {nome: "ana", id: 3}
-        ]
-        res.json(produtos)
+        app
+        .db("users")
+        .select("id", "name", "email", "admin")
+        //.whereNull("deletedAt") // verificar se foi deletado virtualmente pela funcao 'remove'
+        .then((users) => res.json(users))
+        .catch((err) => res.status(500).send(err));
     }
 
     const getById = (req, res) => {
@@ -18,5 +76,5 @@ module.exports = app => {
     const remove = (req, res) => {
     }
 
-    return {save,get,getById,remove}
+    return { save, get, getById, remove }
 }

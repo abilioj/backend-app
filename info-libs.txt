@@ -44,3 +44,7 @@ bcrypt - npm i bcrypt --save
     "password": "123123",
     "confirmPassword": "123123"
 }
+--------------------------------
+caso quere limpa a tabela user no banco pra teste
+TRUNCATE TABLE users;
+--------------------------------
