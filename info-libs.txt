@@ -12,6 +12,15 @@ cors - npm i cors --save
 bcrypt - npm i bcrypt --save
 pra criptografia de dados
 
+jwt-simple - npm i jwt-simple --save
+Módulo de codificação e decodificação JWT (JSON Web Token) para node.js.
+
+passport - npm i passport --save
+é um middleware de autenticação e seu único objetivo do é autenticar solicitações da api
+
+passport-jwt - npm i passport-jwt --save
+módulo permite autenticar endpoints usando um token da Web JSON
+
  Knex.js - npm i -g knex  e  npm install knex --save
  é um construtor de consultas SQL
 
@@ -49,3 +58,6 @@ pra criptografia de dados
 caso quere limpa a tabela user no banco pra teste
 TRUNCATE TABLE users;
 --------------------------------
+
+auth - criar e valida token pelo usuario
+passport - filtra e valida as solicitações  pelo token jwt

@@ -10,6 +10,8 @@ meu primero backend em nodejs
 
 - cors - middleware de tratamento de requisao entre dominio diferentes nas requisições http.
 
+- jwt-simple - Módulo de codificação e decodificação JWT (JSON Web Token) para node.js.
+
 - bcrypt - pra criptografia de dados
 
 - Knex.js - manipulador e um construtor de consultas SQL de banco de dados,

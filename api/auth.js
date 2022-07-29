@@ -1,6 +1,6 @@
-// const { authSecret } = require("../.env");
-// const jwt = require("jwt-simple");
-// const bcrypt = require("bcrypt-nodejs");
+const { authSecret } = require("../.env");
+const jwt = require("jwt-simple");
+const bcrypt = require("bcrypt");
 
 module.exports = (app) => {
 
@@ -27,9 +27,10 @@ module.exports = (app) => {
       email: user.email,
       admin: user.admin,
       iat: now,
-      exp: now + 60 * 60 * 24 * 1, //data de expeiracao do tonk
+      exp: now + 60 * 60 * 24 * 1, // data de expeiracao do tonk
     };
 
+    //criar o token e retorna ele
     res.json({
       ...payload,
       token: jwt.encode(payload, authSecret),
@@ -42,7 +43,7 @@ module.exports = (app) => {
       if (userData) {
         const token = jwt.decode(userData.token, authSecret);
         if (new Date(token.exp * 1000) > new Date()) {
-          return res.send(true);
+          return res.send(true);//token valido
         }
       }
     } catch (e) {
@@ -52,5 +53,5 @@ module.exports = (app) => {
     res.send(false);
   };
 
-  // return { signin, validateToken };
+  return { signin, validateToken };
 };
