@@ -7,6 +7,7 @@ const port = 3000;
 app.db = db;//injetatando as funcoes de persitencia de Banco globalmente
   
 consign()
+.include("./config/passport.js")//injetando a funcoes que valida a autentificação nas rota
 .then("./config/middlewares.js")//injetando as minhas middlewares na api app
 .then("./api/validation.js")//injetatando funcoes globalmente
 .then("./api")

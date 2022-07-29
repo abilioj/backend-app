@@ -61,3 +61,6 @@ TRUNCATE TABLE users;
 
 auth - criar e valida token pelo usuario
 passport - filtra e valida as solicitações  pelo token jwt
+
+pra o token
+'bearer <token>'
