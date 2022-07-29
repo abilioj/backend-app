@@ -79,6 +79,7 @@ module.exports = app => {
     }
 
     const remove = (req, res) => {
+        res.send("del ok")
     }
 
     return { save, get, getById, remove }

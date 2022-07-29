@@ -1,3 +1,6 @@
+// middleware de valida se o usuario é administrador
+const admin = require('./admin')
+
 module.exports = (app) => {
 
   app.post("/signup", app.api.user.save);
@@ -14,6 +17,7 @@ module.exports = (app) => {
   app.route("/users/:id")
   .all(app.config.passport.authenticate()) 
   .get(app.api.user.getById)
+  .delete(admin(app.api.user.remove))
 
   app.route("/").get(app.api.main.index);
 
