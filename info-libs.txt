@@ -1,5 +1,7 @@
 informação de libs usadas
 
+express
+
 consign - npm i consign --save
 Carregue automaticamente seus scripts no projeto! o sucessor deexpress-load
 
